@@ -2,10 +2,16 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "astro",
+  "functions": {
+    "src/pages/api/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "rewrites": [
     {
       "source": "/admin",
       "destination": "/admin"
     }
-  ]
+  ],
+  "regions": ["iad1"]
 }
