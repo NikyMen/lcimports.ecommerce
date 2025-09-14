@@ -2,7 +2,8 @@ import { neon } from '@neondatabase/serverless';
 import type { Product, Category } from '../types';
 
 // Configurar conexión a Neon
-const sql = neon(process.env.DATABASE_URL!);
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_ZS9hpQ0FVfJu@ep-spring-cloud-acuovqk7-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require';
+const sql = neon(DATABASE_URL);
 
 // Función para inicializar la base de datos
 export async function initDatabase() {
