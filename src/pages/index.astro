@@ -2,13 +2,18 @@
 import Layout from '../layouts/Layout.astro';
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
+import { OffersCarousel } from '../components/OffersCarousel';
 import { ProductGrid } from '../components/ProductGrid';
+import { NotificationWrapper } from '../components/NotificationWrapper';
 ---
 
 <Layout title="LC Imports - Tu tienda online de confianza">
-  <Header client:load />
-  <Hero client:load />
-  <main id="productos">
-    <ProductGrid client:load />
-  </main>
+  <NotificationWrapper client:load>
+    <Header client:load />
+    <Hero client:load />
+    <OffersCarousel client:load />
+    <main id="productos">
+      <ProductGrid client:load />
+    </main>
+  </NotificationWrapper>
 </Layout>

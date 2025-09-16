@@ -1,4 +1,7 @@
 ---
+import { Footer } from '../components/Footer';
+import { NotificationContainer } from '../components/NotificationContainer';
+
 export interface Props {
   title: string;
   description?: string;
@@ -13,11 +16,13 @@ const { title, description = "LC Imports - Tu tienda online de confianza" } = As
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body class="bg-gray-50">
     <slot />
+    <Footer client:load />
+    <div id="notification-container"></div>
   </body>
 </html>

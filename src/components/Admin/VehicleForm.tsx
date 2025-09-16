@@ -2,38 +2,38 @@ import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Plus, Upload, X, Image as ImageIcon } from 'lucide-react';
-import type { Product } from '../../types';
+import { Plus, Upload, X, Image as ImageIcon, Car } from 'lucide-react';
+import type { Vehicle } from '../../types';
 
-const productSchema = z.object({
+const vehicleSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
   description: z.string().min(1, 'La descripción es requerida'),
-  category: z.string().min(1, 'La categoría es requerida'),
+  category: z.enum(['motos', 'autos', 'otros']),
   price: z.number().min(0, 'El precio debe ser mayor a 0'),
   stock: z.enum(['sin-stock', 'stock-bajo', 'en-stock'], {
     errorMap: () => ({ message: 'Debe seleccionar un estado de stock' })
   }),
   image: z.string().optional(),
   images: z.array(z.string()).optional(),
+  year: z.number().optional(),
+  mileage: z.number().optional(),
 });
 
-type ProductFormData = z.infer<typeof productSchema>;
+type VehicleFormData = z.infer<typeof vehicleSchema>;
 
-interface ProductFormProps {
-  product?: Product;
-  onSubmit: (data: ProductFormData) => void;
+interface VehicleFormProps {
+  vehicle?: Vehicle;
+  onSubmit: (data: VehicleFormData) => void;
   onCancel: () => void;
-  categories: string[];
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
-  product,
+export const VehicleForm: React.FC<VehicleFormProps> = ({
+  vehicle,
   onSubmit,
-  onCancel,
-  categories
+  onCancel
 }) => {
-  const [imagePreview, setImagePreview] = useState(product?.image || '');
-  const [imagesPreview, setImagesPreview] = useState<string[]>(product?.images || []);
+  const [imagePreview, setImagePreview] = useState(vehicle?.image || '');
+  const [imagesPreview, setImagesPreview] = useState<string[]>(vehicle?.images || []);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -45,16 +45,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     formState: { errors },
     watch,
     setValue
-  } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchema),
+  } = useForm<VehicleFormData>({
+    resolver: zodResolver(vehicleSchema),
     defaultValues: {
-      name: product?.name || '',
-      description: product?.description || '',
-      category: product?.category || '',
-      price: product?.price || 0,
-      stock: product?.stock || 'en-stock',
-      image: product?.image || '',
-      images: product?.images || [],
+      name: vehicle?.name || '',
+      description: vehicle?.description || '',
+      category: vehicle?.category || 'autos',
+      price: vehicle?.price || 0,
+      stock: vehicle?.stock || 'en-stock',
+      image: vehicle?.image || '',
+      images: vehicle?.images || [],
+      year: vehicle?.year || undefined,
+      mileage: vehicle?.mileage || undefined,
     }
   });
 
@@ -127,7 +129,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setImagesPreview(uploadedImages);
       setValue('images', uploadedImages);
       
-      // Si no hay imagen principal, usar la primera como principal
       if (!imagePreview && uploadedImages.length > 0) {
         setImagePreview(uploadedImages[0]);
         setValue('image', uploadedImages[0]);
@@ -146,17 +147,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   };
 
-  const handleFormSubmit = (data: ProductFormData) => {
+  const handleFormSubmit = (data: VehicleFormData) => {
     onSubmit(data);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {product ? 'Editar Producto' : 'Nuevo Producto'}
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+              <Car className="h-6 w-6 mr-2 text-primary-600" />
+              {vehicle ? 'Editar Vehículo' : 'Nuevo Vehículo'}
             </h2>
             <button
               onClick={onCancel}
@@ -167,16 +169,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
 
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+            {/* Información básica */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nombre del Producto *
+                  Nombre del Vehículo *
                 </label>
                 <input
                   {...register('name')}
                   type="text"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Ingresa el nombre del producto"
+                  placeholder="Ej: Honda CBR 600"
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -191,12 +194,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   {...register('category')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
-                  <option value="">Selecciona una categoría</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
+                  <option value="autos">Autos</option>
+                  <option value="motos">Motos</option>
+                  <option value="otros">Otros Vehículos</option>
                 </select>
                 {errors.category && (
                   <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
@@ -212,14 +212,43 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 {...register('description')}
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                placeholder="Describe el producto"
+                placeholder="Describe el vehículo"
               />
               {errors.description && (
                 <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
               )}
             </div>
 
+            {/* Campos básicos simplificados */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Año
+                </label>
+                <input
+                  {...register('year', { valueAsNumber: true })}
+                  type="number"
+                  min="1900"
+                  max="2025"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="2023"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kilometraje
+                </label>
+                <input
+                  {...register('mileage', { valueAsNumber: true })}
+                  type="number"
+                  min="0"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="50000"
+                />
+              </div>
+            </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Precio *
@@ -285,14 +314,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <p className="text-red-500 text-sm mt-1">{errors.stock.message}</p>
                 )}
               </div>
-            </div>
 
+            {/* Sección de imágenes (similar al ProductForm) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Imagen del Producto
+                Imagen Principal
               </label>
               
-              {/* Área de subida de archivos */}
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition-colors">
                 <input
                   ref={fileInputRef}
@@ -316,9 +344,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         {isUploading ? 'Subiendo...' : 'Subir Imagen'}
                       </button>
                       <p className="text-sm text-gray-500 mt-2">
-                        o arrastra y suelta una imagen aquí
-                      </p>
-                      <p className="text-xs text-gray-400">
                         PNG, JPG, GIF hasta 5MB
                       </p>
                     </div>
@@ -361,7 +386,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               </div>
               
-              {/* Campo oculto para la URL de la imagen */}
               <input
                 {...register('image')}
                 type="hidden"
@@ -369,9 +393,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             </div>
 
             {/* Sección de múltiples imágenes */}
-            <div className="mt-6">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Imágenes Adicionales (Hasta 4)
+                Imágenes Adicionales (hasta 4)
               </label>
               
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition-colors">
@@ -384,41 +408,38 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   className="hidden"
                 />
                 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-center">
-                    <ImageIcon className="h-12 w-12 text-gray-400" />
+                {imagesPreview.length === 0 ? (
+                  <div className="space-y-4">
+                    <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => multipleFileInputRef.current?.click()}
+                        disabled={isUploading}
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        {isUploading ? 'Subiendo...' : 'Subir Imágenes'}
+                      </button>
+                      <p className="text-sm text-gray-500 mt-2">
+                        Puedes seleccionar múltiples imágenes (hasta 4)
+                      </p>
+                    </div>
                   </div>
-                  
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => multipleFileInputRef.current?.click()}
-                      disabled={isUploading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
-                    >
-                      <Upload className="h-4 w-4 mr-2" />
-                      {isUploading ? 'Subiendo...' : 'Subir Múltiples Imágenes'}
-                    </button>
-                    <p className="text-sm text-gray-500 mt-2">
-                      Selecciona hasta 4 imágenes adicionales
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      PNG, JPG, GIF hasta 5MB cada una
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Vista previa de múltiples imágenes */}
-                {imagesPreview.length > 0 && (
-                  <div className="mt-6">
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">Imágenes del producto:</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                ) : (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {imagesPreview.map((image, index) => (
                         <div key={index} className="relative">
                           <img
                             src={image}
-                            alt={`Producto ${index + 1}`}
+                            alt={`Imagen ${index + 1}`}
                             className="w-full h-24 object-cover rounded-md border"
+                            onError={() => {
+                              const newImages = imagesPreview.filter((_, i) => i !== index);
+                              setImagesPreview(newImages);
+                              setValue('images', newImages);
+                            }}
                           />
                           <button
                             type="button"
@@ -426,44 +447,26 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                               const newImages = imagesPreview.filter((_, i) => i !== index);
                               setImagesPreview(newImages);
                               setValue('images', newImages);
-                              
-                              // Si era la imagen principal, cambiar a la primera disponible
-                              if (image === imagePreview && newImages.length > 0) {
-                                setImagePreview(newImages[0]);
-                                setValue('image', newImages[0]);
-                              } else if (image === imagePreview && newImages.length === 0) {
-                                setImagePreview('');
-                                setValue('image', '');
-                              }
                             }}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                           >
-                            ×
+                            <X size={12} />
                           </button>
-                          
-                          {/* Indicador de imagen principal */}
-                          {image === imagePreview && (
-                            <div className="absolute bottom-1 left-1 bg-primary-500 text-white text-xs px-2 py-1 rounded">
-                              Principal
-                            </div>
-                          )}
-                          
-                          {/* Botón para hacer principal */}
-                          {image !== imagePreview && (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setImagePreview(image);
-                                setValue('image', image);
-                              }}
-                              className="absolute bottom-1 left-1 bg-gray-600 text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
-                            >
-                              Principal
-                            </button>
-                          )}
                         </div>
                       ))}
                     </div>
+                    
+                    {imagesPreview.length < 4 && (
+                      <button
+                        type="button"
+                        onClick={() => multipleFileInputRef.current?.click()}
+                        disabled={isUploading}
+                        className="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                      >
+                        <Plus className="h-3 w-3 mr-1" />
+                        Agregar más
+                      </button>
+                    )}
                   </div>
                 )}
                 
@@ -472,7 +475,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               </div>
               
-              {/* Campo oculto para las URLs de las imágenes */}
               <input
                 {...register('images')}
                 type="hidden"
@@ -492,7 +494,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 flex items-center space-x-2"
               >
                 <Plus size={20} />
-                <span>{product ? 'Actualizar' : 'Crear'} Producto</span>
+                <span>{vehicle ? 'Actualizar' : 'Crear'} Vehículo</span>
               </button>
             </div>
           </form>

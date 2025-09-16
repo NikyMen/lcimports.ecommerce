@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/Header';
+---
+
+<Layout title="Nosotros - LC Imports">
+  <Header client:load />
+  
+  <main class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Sobre Nosotros</h1>
+        <p class="text-xl md:text-2xl text-primary-100">
+          Conoce al equipo detrás de LC Imports
+        </p>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Nuestra Historia</h2>
+          <p class="text-lg text-gray-600 leading-relaxed">
+            LC Imports nació con la visión de ofrecer productos de calidad a precios accesibles. 
+            Somos una empresa familiar que se enfoca en brindar la mejor experiencia de compra 
+            a nuestros clientes, con atención personalizada y productos cuidadosamente seleccionados.
+          </p>
+        </div>
+
+        <!-- Información de Lucas -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+          <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+            <div class="flex-shrink-0">
+              <div class="w-32 h-32 bg-primary-100 rounded-full flex items-center justify-center">
+                <span class="text-4xl font-bold text-primary-600">LC</span>
+              </div>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">Lucas Cochia</h3>
+              <p class="text-lg text-gray-600 mb-4">
+                <strong>Fundador y Responsable de Ventas</strong>
+              </p>
+              <p class="text-gray-600 leading-relaxed mb-6">
+                Lucas es el corazón de LC Imports. Se encarga personalmente de todas las ventas, 
+                atención al cliente y selección de productos. Su dedicación y conocimiento del 
+                mercado aseguran que cada cliente reciba el mejor servicio y los productos de 
+                más alta calidad.
+              </p>
+              <div class="flex justify-center md:justify-start">
+                <a 
+                  href="https://www.instagram.com/lucas_cochia/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297zm7.718-1.297c-.875.807-2.026 1.297-3.323 1.297s-2.448-.49-3.323-1.297c-.807-.875-1.297-2.026-1.297-3.323s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323z"/>
+                  </svg>
+                  <span>Seguir en Instagram</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Valores de la empresa -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-2">Calidad Garantizada</h4>
+            <p class="text-gray-600">
+              Todos nuestros productos pasan por un riguroso proceso de selección para asegurar la máxima calidad.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-2">Atención Personalizada</h4>
+            <p class="text-gray-600">
+              Lucas se encarga personalmente de cada cliente, brindando un servicio único y personalizado.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+              </svg>
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-2">Mejores Precios</h4>
+            <p class="text-gray-600">
+              Trabajamos directamente con proveedores para ofrecerte los mejores precios del mercado.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

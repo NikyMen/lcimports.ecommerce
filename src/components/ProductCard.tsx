@@ -1,6 +1,8 @@
-import React from 'react';
-import { ShoppingCart, Package, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShoppingCart, Package, Star, Eye } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
+import { StockIndicator, StockIndicatorCompact } from './StockIndicator';
+import { ProductModal } from './ProductModal';
 import type { Product } from '../types';
 
 interface ProductCardProps {
@@ -8,41 +10,62 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Evita que se abra el modal
+    
+    if (product.stock === 'sin-stock') {
+      alert('Sin stock: Este producto no está disponible actualmente');
+      return;
+    }
+    
     addItem(product, 1);
+    alert(`¡Producto agregado! ${product.name} se agregó al carrito`);
   };
 
-  const getStockStatus = (stock: number) => {
-    if (stock === 0) return { text: 'Sin stock', color: 'text-red-600 bg-red-100' };
-    if (stock < 10) return { text: 'Poco stock', color: 'text-yellow-600 bg-yellow-100' };
-    return { text: 'En stock', color: 'text-green-600 bg-green-100' };
+  const handleCardClick = () => {
+    setIsModalOpen(true);
   };
 
-  const stockStatus = getStockStatus(product.stock);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <div className="relative">
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-48 object-cover"
-          />
-        ) : (
-          <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-            <Package className="h-16 w-16 text-gray-400" />
+    <>
+      <div 
+        className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer group"
+        onClick={handleCardClick}
+      >
+        <div className="relative">
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+              <Package className="h-16 w-16 text-gray-400" />
+            </div>
+          )}
+          
+          {/* Overlay con ícono de ver */}
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="bg-white bg-opacity-90 rounded-full p-3">
+                <Eye className="h-6 w-6 text-gray-700" />
+              </div>
+            </div>
           </div>
-        )}
-        
-        <div className="absolute top-2 right-2">
-          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${stockStatus.color}`}>
-            {stockStatus.text}
-          </span>
+          
+          <div className="absolute top-2 right-2">
+            <StockIndicator stock={product.stock} />
+          </div>
         </div>
-      </div>
       
       <div className="p-4">
         <div className="mb-2">
@@ -69,9 +92,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-sm text-gray-500 ml-1">(4.0)</span>
           </div>
           
-          <span className="text-sm text-gray-500">
-            Stock: {product.stock}
-          </span>
+          <StockIndicatorCompact stock={product.stock} />
         </div>
         
         <div className="flex items-center justify-between">
@@ -83,18 +104,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           
           <button
             onClick={handleAddToCart}
-            disabled={product.stock === 0}
+            disabled={product.stock === 'sin-stock'}
             className={`flex items-center space-x-2 px-4 py-2 rounded-md font-medium transition-colors ${
-              product.stock === 0
+              product.stock === 'sin-stock'
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-primary-600 text-white hover:bg-primary-700'
             }`}
           >
             <ShoppingCart size={16} />
-            <span>{product.stock === 0 ? 'Sin stock' : 'Agregar'}</span>
+            <span>{product.stock === 'sin-stock' ? 'Sin stock' : 'Agregar'}</span>
           </button>
         </div>
+        </div>
       </div>
-    </div>
+
+      {/* Modal del Producto */}
+      <ProductModal 
+        product={product} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
+    </>
   );
 };

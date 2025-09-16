@@ -2,23 +2,39 @@ import React from 'react';
 import { ShoppingBag, Truck, Shield, Star } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+
   return (
-    <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Bienvenido a LC Imports
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-primary-100">
-            Descubre productos de calidad con los mejores precios
-          </p>
-          <a
-            href="#productos"
-            className="inline-flex items-center space-x-2 bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-          >
-            <ShoppingBag size={20} />
-            <span>Ver Productos</span>
-          </a>
+    <>
+      <div 
+        className="text-white relative min-h-screen flex flex-col justify-center"
+        style={{
+          backgroundImage: "url('/lcimports.background.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        {/* Overlay gradient para mejorar la legibilidad del texto */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70"></div>
+        
+        {/* Efecto de desvanecimiento en la parte inferior */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Bienvenido a LC Imports
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-white">
+              Descubre productos de calidad con los mejores precios
+            </p>
+            <a
+              href="#productos"
+              className="inline-flex items-center space-x-2 bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+            >
+              <ShoppingBag size={20} />
+              <span>Ver Productos</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -64,6 +80,6 @@ export const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

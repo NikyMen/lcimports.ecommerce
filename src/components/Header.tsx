@@ -23,7 +23,11 @@ export const Header: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center">
               <a href="/" className="flex items-center space-x-2">
-                <Package className="h-8 w-8 text-primary-600" />
+                <img 
+                  src="/logo.png" 
+                  alt="LC Imports Logo" 
+                  className="h-8 w-8 object-contain"
+                />
                 <span className="text-xl font-bold text-gray-900">LC Imports</span>
               </a>
             </div>
@@ -41,6 +45,18 @@ export const Header: React.FC = () => {
                 className="text-gray-700 hover:text-primary-600 transition-colors"
               >
                 Productos
+              </a>
+              <a
+                href="/vehiculos"
+                className="text-gray-700 hover:text-primary-600 transition-colors"
+              >
+                Vehículos
+              </a>
+              <a
+                href="/nosotros"
+                className="text-gray-700 hover:text-primary-600 transition-colors"
+              >
+                Nosotros
               </a>
               <a
                 href="/admin"
@@ -82,6 +98,20 @@ export const Header: React.FC = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Productos
+                </a>
+                <a
+                  href="/vehiculos"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vehículos
+                </a>
+                <a
+                  href="/nosotros"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Nosotros
                 </a>
                 <a
                   href="/admin"

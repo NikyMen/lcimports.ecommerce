@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Header } from '../components/Header';
+---
+
+<Layout title="Vehículos - LC Imports">
+  <Header client:load />
+  
+  <main class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Vehículos en Venta</h1>
+        <p class="text-xl md:text-2xl text-primary-100">
+          Motos, autos y más vehículos de calidad
+        </p>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <!-- Mensaje informativo -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-blue-800">
+              Próximamente
+            </h3>
+            <div class="mt-2 text-sm text-blue-700">
+              <p>
+                Estamos preparando una sección especial para vehículos. Mientras tanto, 
+                puedes contactarnos por WhatsApp para consultar sobre motos, autos y otros vehículos disponibles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorías de vehículos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <!-- Motos -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <div class="h-48 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Motos</h3>
+            <p class="text-gray-600 mb-4">
+              Motocicletas de todas las marcas y modelos. Nuevas y usadas en excelente estado.
+            </p>
+            <div class="text-sm text-gray-500">
+              <span class="font-medium">Disponibles:</span> Varios modelos
+            </div>
+          </div>
+        </div>
+
+        <!-- Autos -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Autos</h3>
+            <p class="text-gray-600 mb-4">
+              Automóviles de diferentes marcas, años y condiciones. Desde económicos hasta premium.
+            </p>
+            <div class="text-sm text-gray-500">
+              <span class="font-medium">Disponibles:</span> Varios modelos
+            </div>
+          </div>
+        </div>
+
+        <!-- Otros Vehículos -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Otros Vehículos</h3>
+            <p class="text-gray-600 mb-4">
+              Camionetas, pickups, utilitarios y vehículos comerciales de todo tipo.
+            </p>
+            <div class="text-sm text-gray-500">
+              <span class="font-medium">Disponibles:</span> Varios modelos
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA para contacto -->
+      <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">¿Buscas un vehículo específico?</h2>
+        <p class="text-gray-600 mb-6">
+          Contáctanos por WhatsApp y te ayudaremos a encontrar el vehículo perfecto para ti.
+        </p>
+        <button
+          onclick="window.open('https://wa.me/543794406509?text=Hola! Me gustaría consultar sobre vehículos disponibles.', '_blank')"
+          class="inline-flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+          </svg>
+          <span>Consultar por WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </main>
+</Layout>

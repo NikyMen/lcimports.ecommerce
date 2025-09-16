@@ -56,6 +56,37 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
     }
   };
 
+  const handleQuickWhatsApp = async () => {
+    if (items.length === 0) return;
+
+    try {
+      const whatsappData: WhatsAppMessage = {
+        products: items,
+        total
+      };
+
+      const response = await fetch('/api/whatsapp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(whatsappData),
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        // Abrir WhatsApp directamente con el mensaje
+        window.open(result.whatsappUrl, '_blank');
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error al generar enlace de WhatsApp:', error);
+      alert('Error al generar el enlace de WhatsApp');
+    }
+  };
+
   const handleClearCart = () => {
     if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
       clearCart();
@@ -135,11 +166,20 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
 
               {/* WhatsApp Button */}
               <button
-                onClick={() => setShowWhatsAppForm(true)}
+                onClick={handleQuickWhatsApp}
                 className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
               >
                 <MessageCircle size={20} />
                 <span>Consultar Stock por WhatsApp</span>
+              </button>
+
+              {/* Advanced WhatsApp Button */}
+              <button
+                onClick={() => setShowWhatsAppForm(true)}
+                className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors flex items-center justify-center space-x-2 text-sm"
+              >
+                <User size={16} />
+                <span>Con datos personales</span>
               </button>
 
               {/* Clear Cart Button */}
