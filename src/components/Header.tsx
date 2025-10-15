@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
                 <img 
                   src="/logo-lcimports.svg" 
                   alt="LC Imports Logo" 
-                  className="h-10 w-auto"
+                  className="h-14 md:h-16 w-auto"
                 />
               </a>
             </div>
